@@ -31,6 +31,8 @@ spec:
           - "/bin/runner"
           - '{{ .Jsn }}'
         volumeMounts:
+        - name: docker-socket
+          mountpath: /var/run/docker.sock
         - name: data-volume
           mountPath: /data
         {{- if .CertificateSecret }}
@@ -38,6 +40,9 @@ spec:
           mountPath: /etc/certs
         {{- end }}
       volumes:
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
       - name: data-volume
         emptyDir: {}
       {{- if .CertificateSecret }}
